@@ -32,13 +32,14 @@ catch (const hook::txn_exception&)
 }
 
 DWORD particlesFunc_out_addr;
-DWORD Car_V_offset;
+DWORD Car_V_offset_dust;
 
+#ifdef _MSC_VER
 __declspec(naked) VOID applyAsmPatch_v82() {
 	__asm {
 		//указатель на Car_V (7.3 - 8.2)
 		//mov     ecx, dword ptr[esi + 5460h]
-		mov     ecx, dword ptr[Car_V_offset]
+		mov     ecx, dword ptr[Car_V_offset_dust]
 		mov     ecx, dword ptr[esi + ecx]
 
 		//Car_V->vehicle_velocity.y
@@ -67,7 +68,7 @@ __declspec(naked) VOID applyAsmPatch_v71() {
 	__asm {
 		//Car_V 7.1 - 7.2 pointer
 		//mov     eax, dword ptr[ebx + 5010h]
-		mov     eax, dword ptr[Car_V_offset]
+		mov     eax, dword ptr[Car_V_offset_dust]
 		mov     eax, dword ptr[ebx + eax]
 
 		//direction.x
@@ -91,9 +92,11 @@ __declspec(naked) VOID applyAsmPatch_v71() {
 		jmp particlesFunc_out_addr
 	}
 }
+#endif
 
 bool DustParticlesFix::injectHooks(int gameVersion) {
 
+#ifdef _MSC_VER
 	if (!getOffsets(gameVersion))
 		return false;
 
@@ -101,7 +104,7 @@ bool DustParticlesFix::injectHooks(int gameVersion) {
 
 	particlesFunc_out_addr = (int)particlesCodeStart + 5;
 
-	Car_V_offset = GetCarVOffset(gameVersion);
+	Car_V_offset_dust = GetCarVOffset(gameVersion);
 
 	//6.9 - 7.3
 	if (gameVersion < 74) {
@@ -116,5 +119,8 @@ bool DustParticlesFix::injectHooks(int gameVersion) {
 	CPatch::SetFloat((int)dustParticlesLifetime, 0.35);
 
 	return true;
+#else
+	return false;
+#endif
 
 }

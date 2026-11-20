@@ -10,11 +10,11 @@ public:
 	void setFromArgs(float _x, float _y, float _z);
 	void setFromPtr(float* ptr);
 	long double getLength();
-	CVector CVector::normalize();
-	CVector CVector::operator+ (const CVector& rhs);
-	CVector CVector::operator- (const CVector& rhs);
-	CVector CVector::operator* (const long double& rhs);
-	CVector CVector::operator* (const CVector& rhs);
+	CVector normalize();
+	CVector operator+ (const CVector& rhs);
+	CVector operator- (const CVector& rhs);
+	CVector operator* (const long double& rhs);
+	CVector operator* (const CVector& rhs);
 
 	static CVector CrossProduct(CVector a1, CVector a2);
 	static CVector * CrossProduct(CVector *a1, CVector *a2, CVector *a3);
