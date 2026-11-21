@@ -24,7 +24,7 @@ protected:
 private:
     RedirectJumpHookBase(const RedirectJumpHookBase &other) = delete;
 
-    uint8_t backupBytes_[redirectJumpInstructionSize]{};
+    uint8_t backupBytes_[redirectJumpInstructionSize]{0};
 
     void *original_{nullptr};
     bool isInstalled_{false};
