@@ -45,7 +45,7 @@ bool InfoPanelFix::injectHooks(){
 	if (!getOffsets())
 		return false;
 
-	CPatch::RedirectCall((int)callAddr_sprintf_gearbox, &sprintf_hook);
+	CPatch::RedirectCall((int)callAddr_sprintf_gearbox, reinterpret_cast<void*>(&sprintf_hook));
 
 	return true;
 }

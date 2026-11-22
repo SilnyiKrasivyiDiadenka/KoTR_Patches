@@ -135,7 +135,7 @@ bool AICarFix::injectHooks(int gameVersion){
 	CPatch::SetPointer(addr_dbl_incr, &dbl_incr);
 	
 	//hook function before do/while cycle
-	CPatch::RedirectCall(callAddr_sub_4CFD50, &OnCall4CFD50);
+	CPatch::RedirectCall(callAddr_sub_4CFD50, reinterpret_cast<void*>(&OnCall4CFD50));
 
 	//distance when set veh_in_mode to 1
 	dbl_veh_dist_check_80 = GetPrivateProfileDouble("AI_CAR", "dist_mode_1", "80.0", ".\\KoTR_ModernPatch.ini");

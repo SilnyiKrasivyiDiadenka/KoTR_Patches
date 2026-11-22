@@ -1,5 +1,5 @@
 #include "ConfigUtils.h"
-#include <Windows.h>
+#include <windows.h>
 
 float GetPrivateProfileFloat(char* selection, char* variableName, char* defaultValue, char* filename){
 	char buf[256];

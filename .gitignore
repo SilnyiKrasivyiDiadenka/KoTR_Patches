@@ -4,4 +4,5 @@
 /KoTR_ModernPatch/Debug/
 /KoTR_ModernPatch/Release/
 /KoTR_ModernPatch/asi/
+/build/
 *.vcxproj.user

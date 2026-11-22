@@ -147,14 +147,14 @@ bool STrailersPhysFix::injectHooks(int gameVersion){
 	strailer_mass_coeff = GetPrivateProfileFloat("STRAILER_PHY", "strailer_coeff", "3.5", ".\\KoTR_ModernPatch.ini");
 
 	//0x55AFFF, 0x55B01A
-	CPatch::RedirectCall(callAddr_4FABB0_tractor, &OnCall4FABB0ForTractor);
-	CPatch::RedirectCall(callAddr_4FABB0_strailer, &OnCall4FABB0ForSTrailer);
+	CPatch::RedirectCall(callAddr_4FABB0_tractor, reinterpret_cast<void*>(&OnCall4FABB0ForTractor));
+	CPatch::RedirectCall(callAddr_4FABB0_strailer, reinterpret_cast<void*>(&OnCall4FABB0ForSTrailer));
 
 	//0x55A836
 	CPatch::SetInt(addr_strailer_detach, 0); //disable strailer detach on bad roads
 
 	//0x55D91C
-	CPatch::RedirectCall(callAddr_processRDtrains, &OnCallProcessRoadtrainMovement);
+	CPatch::RedirectCall(callAddr_processRDtrains, reinterpret_cast<void*>(&OnCallProcessRoadtrainMovement));
 
 	return true;
 }

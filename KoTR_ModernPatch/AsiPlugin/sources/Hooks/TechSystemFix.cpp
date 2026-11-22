@@ -47,7 +47,7 @@ bool TechSystemFix::injectHooks(){
 		return false;
 
 	//called on vehicle buy/sell, load/unload and driver switch
-	CPatch::RedirectCall((int)callAddr_SetUpgrades, &OnVehicleSetUpgrades);
+	CPatch::RedirectCall((int)callAddr_SetUpgrades, reinterpret_cast<void*>(&OnVehicleSetUpgrades));
 
 	return true;
 }

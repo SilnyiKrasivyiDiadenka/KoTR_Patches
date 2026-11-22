@@ -1,24 +1,24 @@
 #include "dllmain.h"
-#include <Windows.h>
+#include <windows.h>
 
 #include <iostream>
 
-#include "Utils\ExeUtils.h"
+#include "Utils/ExeUtils.h"
 
 //patches
-//#include "Hooks\MirrorsFix.h"
-#include "Hooks\CollisionsFix.h"
-#include "Hooks\DustParticlesFix.h"
-#include "Hooks\CabinCamFix.h"
-#include "Hooks\TechSystemFix.h"
-//#include "Hooks\FinesCorrection.h"
-#include "Hooks\AICarFix.h"
-#include "Hooks\STrailersPhysFix.h"
-#include "Hooks\QueueSortingFix.h"
-#include "Hooks\ExtCameraFix.h"
-#include "Hooks\InfoPanelFix.h"
-//#include "Hooks\HorizontalRainFix.h"
-//#include "Utils\CPatch.h"
+//#include "Hooks/MirrorsFix.h"
+#include "Hooks/CollisionsFix.h"
+#include "Hooks/DustParticlesFix.h"
+#include "Hooks/CabinCamFix.h"
+#include "Hooks/TechSystemFix.h"
+//#include "Hooks/FinesCorrection.h"
+#include "Hooks/AICarFix.h"
+#include "Hooks/STrailersPhysFix.h"
+#include "Hooks/QueueSortingFix.h"
+#include "Hooks/ExtCameraFix.h"
+#include "Hooks/InfoPanelFix.h"
+//#include "Hooks/HorizontalRainFix.h"
+//#include "Utils/CPatch.h"
 
 using namespace std;
 

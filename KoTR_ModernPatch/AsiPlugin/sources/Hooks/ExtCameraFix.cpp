@@ -57,8 +57,8 @@ bool ExtCameraFix::injectHooks() {
 	forced_camera_rotation_coeff = GetPrivateProfileDouble("EXT_CAMERA", "rotation_coeff", "1.04719753", ".\\KoTR_ModernPatch.ini");
 
 	CPatch::SetDouble((int)addr_CameraRotCoeff, forced_camera_rotation_coeff);
-	CPatch::RedirectCall((int)callAddr_CameraProcess, &OnCameraInstanceProcess);
-	//CPatch::RedirectCall((int)callAddr_CameraReset, &OnCameraInstanceReset);
+	CPatch::RedirectCall((int)callAddr_CameraProcess, reinterpret_cast<void*>(&OnCameraInstanceProcess));
+	//CPatch::RedirectCall((int)callAddr_CameraReset, reinterpret_cast<void*>(&OnCameraInstanceReset));
 
 	return true;
 }
