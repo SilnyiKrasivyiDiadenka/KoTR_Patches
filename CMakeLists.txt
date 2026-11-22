@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.16)
+project(KoTR_ModernPatch LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(COMMON_SOURCES
+    KoTR_ModernPatch/AsiPlugin/sources/GameApp/GameObjects.cpp
+    KoTR_ModernPatch/AsiPlugin/sources/Utils/CMatrix.cpp
+    KoTR_ModernPatch/AsiPlugin/sources/Utils/ConfigUtils.cpp
+    KoTR_ModernPatch/AsiPlugin/sources/Utils/CVector.cpp
+    KoTR_ModernPatch/AsiPlugin/sources/Utils/ExeUtils.cpp
+    KoTR_ModernPatch/AsiPlugin/sources/Utils/ModUtils/Patterns.cpp)
+
+add_library(
+  KoTR_ModernPatch SHARED
+  KoTR_ModernPatch/AsiPlugin/sources/dllmain.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/AICarFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/CabinCamFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/CollisionsFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/ExtCameraFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/InfoPanelFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/DustParticlesFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/QueueSortingFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/STrailersPhysFix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Hooks/TechSystemFix.cpp
+  ${COMMON_SOURCES})
+
+set_target_properties(
+  KoTR_ModernPatch
+  PROPERTIES SUFFIX ".asi"
+             PREFIX ""
+             OUTPUT_NAME "KoTR_ModernPatch")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+  target_link_options(
+    KoTR_ModernPatch PRIVATE $<$<CONFIG:Release>:-static>
+    $<$<CONFIG:Release>:-static-libgcc> $<$<CONFIG:Release>:-static-libstdc++>)
+endif()
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  target_compile_options(KoTR_ModernPatch PRIVATE -fms-extensions
+                                                  -fms-compatibility)
+endif()
