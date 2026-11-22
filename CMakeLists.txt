@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(KoTR_ModernPatch LANGUAGES CXX)
+project(KoTR_Patches LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -27,19 +27,41 @@ add_library(
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/TechSystemFix.cpp
   ${COMMON_SOURCES})
 
+add_library(
+  KoTR_MonoSoundFix SHARED
+  KoTR_MonoSoundFix/AsiPlugin/sources/dllmain.cpp
+  Common/PatchHelpers/PointerFinder.cpp
+  Common/PatchHelpers/RedirectJumpHookBase.cpp
+  Common/PatchHelpers/TrampolineHookBase.cpp
+  KoTR_MonoSoundFix/AsiPlugin/sources/Hooks/MonoSoundFix.cpp
+  ${COMMON_SOURCES})
+
 set_target_properties(
   KoTR_ModernPatch
   PROPERTIES SUFFIX ".asi"
              PREFIX ""
              OUTPUT_NAME "KoTR_ModernPatch")
 
+set_target_properties(
+  KoTR_MonoSoundFix
+  PROPERTIES SUFFIX ".asi"
+             PREFIX ""
+             OUTPUT_NAME "KoTR_MonoSoundFix")
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
   target_link_options(
     KoTR_ModernPatch PRIVATE $<$<CONFIG:Release>:-static>
+    $<$<CONFIG:Release>:-static-libgcc> $<$<CONFIG:Release>:-static-libstdc++>)
+
+  target_link_options(
+    KoTR_MonoSoundFix PRIVATE $<$<CONFIG:Release>:-static>
     $<$<CONFIG:Release>:-static-libgcc> $<$<CONFIG:Release>:-static-libstdc++>)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(KoTR_ModernPatch PRIVATE -fms-extensions
                                                   -fms-compatibility)
+
+  target_compile_options(KoTR_MonoSoundFix PRIVATE -fms-extensions
+                                                   -fms-compatibility)
 endif()
