@@ -47,8 +47,12 @@ int __fastcall MonoSoundFix::OnCallSnd_CreateBuffer(PlayObject *self)
                 createNewStereoBuffer = true;
             } else {
                 // Cheap hack
-                soundFormat.nChannels = 2;
-                soundFormat.nSamplesPerSec /= 2;
+                const std::uint32_t newChannelsCount = 2;
+                const std::uint32_t oldChannelsCount = soundFormat.nChannels;
+                soundFormat.nChannels = newChannelsCount;
+                soundFormat.nSamplesPerSec = static_cast<double>(soundFormat.nSamplesPerSec)
+                                             * oldChannelsCount / newChannelsCount;
+                self->dataSize = self->dataSize - self->dataSize % newChannelsCount;
                 FixupWaveFormatEx(soundFormat);
             }
         }
@@ -261,7 +265,7 @@ std::uintptr_t MonoSoundFix_8_0::TrampolineBytesCountToSteal() const
     return 5;
 }
 
-std::unique_ptr<IPatch> MonoSoundFixFactory::create(const int gameVersion)
+std::unique_ptr<IPatch> MonoSoundFixFactory::Create(const int gameVersion)
 {
     switch (gameVersion) {
     case 80:
