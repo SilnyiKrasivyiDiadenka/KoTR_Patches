@@ -89,7 +89,7 @@ private:
 class MonoSoundFixFactory
 {
 public:
-    static std::unique_ptr<IPatch> create(const int gameVersion);
+    static std::unique_ptr<IPatch> Create(const int gameVersion);
 };
 
 #endif // MONO_SOUND_FIX_H
