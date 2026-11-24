@@ -45,7 +45,7 @@ int GetGameVersion() {
 	}
 }
 
-std::string UInt32toPattern(uint32_t value)
+std::string UInt32toPattern(std::uint32_t value)
 {
 	std::stringstream ss;
 	ss << std::hex << std::uppercase << std::setfill('0');
