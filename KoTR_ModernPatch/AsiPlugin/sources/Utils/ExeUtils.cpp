@@ -1,7 +1,7 @@
 #include "ExeUtils.h"
 
-#include "../Utils/ModUtils/MemoryMgr.h"
 #include "../Utils/ModUtils/Patterns.h"
+#include "../Utils/ModUtils/MemoryMgr.h"
 #include "../Utils/CPatch.h"
 #include <iomanip>
 #include <sstream>
