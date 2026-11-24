@@ -52,7 +52,7 @@ git clone --recurse-submodules https://github.com/SilnyiKrasivyiDiadenka/KoTR_Pa
 
 ## License
 
-This project is licensed under the **MIT License**, the same as the original [KoTR_Modern_Patch] project.
+This project is licensed under the **MIT License**, the same as the original KoTR_Modern_Patch project.
 See the [LICENSE](LICENSE) file for the full text.
 
 ---
