@@ -1,8 +1,10 @@
 #include "ExeUtils.h"
 
-#include "../Utils/ModUtils/Patterns.h"
-#include "../Utils/ModUtils/MemoryMgr.h"
 #include "../Utils/CPatch.h"
+#include "../Utils/ModUtils/MemoryMgr.h"
+#include "../Utils/ModUtils/Patterns.h"
+#include <iomanip>
+#include <sstream>
 
 //#include <Windows.h>
 //#include <iostream>
@@ -43,8 +45,13 @@ int GetGameVersion() {
 	}
 }
 
-char* UInt32toPattern(uint32_t value) {
-	char result[24];
-	sprintf(result, "%02X %02X %02X %02X", (value & 0xFF), ((value >> 8) & 0xFF), ((value >> 16) & 0xFF), ((value >> 24) & 0xFF));
-	return result;
+std::string UInt32toPattern(uint32_t value)
+{
+	std::stringstream ss;
+	ss << std::hex << std::uppercase << std::setfill('0');
+	ss << std::setw(2) << (value & 0xFF) << ' ';
+	ss << std::setw(2) << ((value >> 8) & 0xFF) << ' ';
+	ss << std::setw(2) << ((value >> 16) & 0xFF) << ' ';
+	ss << std::setw(2) << ((value >> 24) & 0xFF);
+	return ss.str();
 }
