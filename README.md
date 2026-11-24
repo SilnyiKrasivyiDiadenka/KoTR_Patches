@@ -46,9 +46,9 @@ cmake --build build
 git clone --recurse-submodules https://github.com/SilnyiKrasivyiDiadenka/KoTR_Patches.git
 ```
 1. Open Visual Studio.
-2. Choose **File → Open → CMake...** and select the top-level `CMakeLists.txt` in the cloned repository.
+2. Choose **File -> Open -> CMake...** and select the top-level `CMakeLists.txt` in the cloned repository.
 3. Visual Studio will configure the project automatically.
-4. Select your desired configuration (e.g. `Release` / `Win32` / 32-bit) and build via **Build → Build All**.
+4. Select your desired configuration (e.g. `Release` / `Win32` / 32-bit) and build via **Build -> Build All**.
 
 ## License
 
