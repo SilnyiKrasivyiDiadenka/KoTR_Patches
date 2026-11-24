@@ -1,43 +1,61 @@
-# KoTR Modern Patch
-King of the Road [Modern Patch](https://www.moddb.com/games/hard-truck-2/downloads/king-of-the-road-modern-patch) sources.</br>
-Patch v1.00/v1.01 with mods sources are available [there](https://github.com/aleko2144/KoTR_Modern_Patch/tree/1.00).
+# KoTR Patches
 
-[Описание на русском языке доступно здесь](README-RU.md)
+A derived fork of KoTR_Modern_Patch with CMake build system and additional KoTR patches.
 
-## What is it?
-A patch for the game that fixes some bugs and flaws in the original game, as well as introduces some improvements.</br>
-The list of changes is [available here](CHANGELOG.md).
+## Overview
 
-Important! This patch does not resolve launch issues. For proper game performance on modern computers, I recommend using [D2GI](https://github.com/REDPOWAR/D2GI/).
+This is a fork of [KoTR_Modern_Patch](https://github.com/aleko2144/KoTR_Modern_Patch).  
+This repository is maintained as a derived project that builds on the original code rather than a drop-in replacement or a completely standalone project.
 
-## Compatibility with game versions
-|Patch|Description|Supported game versions|
-|-----|-----------|-----------------------|
-|QueueSortingFix|Fixes 1-second freezes when entering Greystone and improves loading times|6.6 - 8.2/1.x|
-|ExtCameraFix|Corrects external camera movement behind the player’s vehicle| |
-|CollisionsFix|Corrects the collision handling parameters for dynamic objects| |
-|InfoPanelFix|Fixes the display of the selected gear higher than 9 in the top panel of the interface| |
-|TechSystemFix*|Fixes bugs in the upgrade system, such as fuel disappearing when vehicles switches with an additional tank is installed, visual disappearance of installed upgrades, etc.| |
-|DustParticlesFix|Corrects the direction of emitted dust particles from cars|6.9 - 8.2/1.x|
-|STrailersPhysFix|Corrects semi-trailer physics behavior|7.0 - 8.2/1.x|
-|AICarFix|Corrects traffic behavior on narrow two-lane roads|7.4 - 8.2/1.x|
-|CabinCamFix|Fixes a bug that causes cabins to be positioned too low|8.0 - 8.2/1.x|
+## Building
 
-*_Experimental patch - the impact on the game is not fully understood_</br>
+### Requirements
 
-## Compiling the project
-* To build the current version of the project, VS2019 is required, for version 1.00/1.01 - VS2012.
-* To load an asi file into the game, it is recommended to use [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) by [ThirteenAG](https://github.com/ThirteenAG)
-* Modified game resources for the current version of the patch are published here __(only for 8.x/1.x)__: https://disk.yandex.ru/d/8vJAj0gO_5vukA
+- CMake ≥ 3.16
+- A C++ compiler with C++17 support
+- Git
+- **Linux** (cross-compilation to 32-bit Windows):
+  ```bash
+  sudo install g++-mingw-w64-i686
+  ```
 
-## Used sources
-* File "CPatch.h" and some game structures are included from [D2DInputWrapper](https://github.com/Voron295/rignroll-dinput-wrapper) by [Voron295](https://github.com/Voron295)
-* [ModUtils](https://github.com/CookiePLMonster/ModUtils) by [CookiePLMonster](https://github.com/CookiePLMonster)
-* D2GI sources are [available here](https://github.com/REDPOWAR/D2GI)
+### Build Instructions
 
-## Acknowledgments
-* [Voron295](https://github.com/Voron295)
-* [CookiePLMonster](https://github.com/CookiePLMonster)
-* [Duude92](https://github.com/Duude92)
-* [AlexKimov](https://github.com/AlexKimov)
-* [LabVaKars](https://github.com/LabVaKars)
+#### Linux (cross-compile to 32-bit Windows with MinGW)
+
+```bash
+# Clone the repository with submodules
+git clone --recurse-submodules https://github.com/SilnyiKrasivyiDiadenka/KoTR_Patches.git
+cd KoTR_Patches
+
+# Configure and build
+cmake -S . -B build \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_SYSTEM_NAME=Windows \
+  -DCMAKE_SYSTEM_PROCESSOR=i686 \
+  -DCMAKE_C_COMPILER=/bin/i686-w64-mingw32-gcc \
+  -DCMAKE_CXX_COMPILER=/bin/i686-w64-mingw32-g++
+cmake --build build
+```
+**Note:** In Release builds with Clang or GNU compilers (including MinGW), the CMakeLists.txt applies static linking for `libgcc` and `libstdc++`.
+
+#### Windows (Visual Studio)
+
+```bash
+# Clone the repository with submodules
+git clone --recurse-submodules https://github.com/SilnyiKrasivyiDiadenka/KoTR_Patches.git
+```
+1. Open Visual Studio.
+2. Choose **File -> Open -> CMake...** and select the top-level `CMakeLists.txt` in the cloned repository.
+3. Visual Studio will configure the project automatically.
+4. Select your desired configuration (e.g. `Release` / `Win32` / 32-bit) and build via **Build -> Build All**.
+
+## License
+
+This project is licensed under the **MIT License**, the same as the original KoTR_Modern_Patch project.
+See the [LICENSE](LICENSE) file for the full text.
+
+---
+
+**Upstream:** [KoTR_Modern_Patch](https://github.com/aleko2144/KoTR_Modern_Patch)  
+**This fork:** Maintained as a derived project with CMake + additional KoTR patches.
