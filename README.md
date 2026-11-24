@@ -33,7 +33,8 @@ cmake -S . -B build \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_SYSTEM_NAME=Windows \
   -DCMAKE_SYSTEM_PROCESSOR=i686 \
-  -DCMAKE_C_COMPILER=/bin/i686-w64-mingw32-gcc
+  -DCMAKE_C_COMPILER=/bin/i686-w64-mingw32-gcc \
+  -DCMAKE_CXX_COMPILER=/bin/i686-w64-mingw32-g++
 cmake --build build
 ```
 **Note:** In Release builds with Clang or GNU compilers (including MinGW), the CMakeLists.txt applies static linking for `libgcc` and `libstdc++`.
