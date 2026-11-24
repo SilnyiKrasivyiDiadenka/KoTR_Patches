@@ -1,4 +1,5 @@
 #include "dllmain.h"
+#include "../../../Common/SettingsManager/SettingsManager.h"
 #include "../../../KoTR_ModernPatch/AsiPlugin/sources/Utils/ExeUtils.h"
 #include "Hooks/MonoSoundFix.h"
 #include <iostream>
@@ -10,7 +11,7 @@ namespace {
 std::vector<std::unique_ptr<IPatch>> patchHolder;
 }
 
-bool printDebugInfo;
+bool printDebugInfo{false};
 
 void printInfo(const char *text)
 {
@@ -47,23 +48,25 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
     switch (fdwReason) {
     case DLL_PROCESS_ATTACH: {
-        LPCSTR configName = ".\\KoTR_MonoSoundFix.ini";
-        int gameVersion = GetGameVersion();
+        const std::string configName = ".\\KoTR_MonoSoundFix.ini";
+        const int gameVersion = GetGameVersion();
 
-        printDebugInfo = GetPrivateProfileIntA("common", "DisplayConsole", 0, configName);
+        auto settingsManager = SettingsManagerFactory::Create(configName, true);
+
+        printDebugInfo = settingsManager->ReadBool("common", "DisplayConsole", false);
         if (printDebugInfo)
             displayConsole();
 
         printInfo("Base functionality from Modern Patch");
         printInfo("https://github.com/aleko2144/KoTR_Modern_Patch");
         printInfo("");
-        printInfo("MonoSoundFix v1.0.0");
+        printInfo("MonoSoundFix v1.0.1");
         printInfo("https://github.com/SilnyiKrasivyiDiadenka/KoTR_Patches");
         printInfo("");
         printGameVersion(gameVersion);
 
-        if (GetPrivateProfileIntA("patches", "MonoSoundFix", 0, configName)) {
-            auto monoSoundFix = MonoSoundFixFactory::create(gameVersion);
+        if (settingsManager->ReadBool("MONO_SOUND_FIX", "HookEnabled", true)) {
+            auto monoSoundFix = MonoSoundFixFactory::Create(gameVersion);
             if (monoSoundFix && monoSoundFix->InjectHooks()) {
                 std::string log = "[PATCH]: injected " + monoSoundFix->GetName() + " patch";
                 printInfo(log.c_str());
