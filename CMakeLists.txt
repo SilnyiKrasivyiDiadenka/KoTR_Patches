@@ -5,17 +5,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(COMMON_SOURCES
-    KoTR_ModernPatch/AsiPlugin/sources/GameApp/GameObjects.cpp
-    KoTR_ModernPatch/AsiPlugin/sources/Utils/CMatrix.cpp
-    KoTR_ModernPatch/AsiPlugin/sources/Utils/ConfigUtils.cpp
-    KoTR_ModernPatch/AsiPlugin/sources/Utils/CVector.cpp
-    KoTR_ModernPatch/AsiPlugin/sources/Utils/ExeUtils.cpp
-    KoTR_ModernPatch/AsiPlugin/sources/Utils/ModUtils/Patterns.cpp)
+include(CheckIPOSupported)
+check_ipo_supported(RESULT ipo_supported)
+if(ipo_supported)
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+endif()
 
 add_library(
   KoTR_ModernPatch SHARED
   KoTR_ModernPatch/AsiPlugin/sources/dllmain.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/GameApp/GameObjects.cpp
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/AICarFix.cpp
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/CabinCamFix.cpp
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/CollisionsFix.cpp
@@ -25,16 +24,22 @@ add_library(
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/QueueSortingFix.cpp
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/STrailersPhysFix.cpp
   KoTR_ModernPatch/AsiPlugin/sources/Hooks/TechSystemFix.cpp
-  ${COMMON_SOURCES})
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/CMatrix.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ConfigUtils.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/CVector.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ExeUtils.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ModUtils/Patterns.cpp)
 
 add_library(
   KoTR_MonoSoundFix SHARED
   KoTR_MonoSoundFix/AsiPlugin/sources/dllmain.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ExeUtils.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ModUtils/Patterns.cpp
   Common/PatchHelpers/PointerFinder.cpp
   Common/PatchHelpers/RedirectJumpHookBase.cpp
   Common/PatchHelpers/TrampolineHookBase.cpp
-  KoTR_MonoSoundFix/AsiPlugin/sources/Hooks/MonoSoundFix.cpp
-  ${COMMON_SOURCES})
+  Common/SettingsManager/SettingsManager.cpp
+  KoTR_MonoSoundFix/AsiPlugin/sources/Hooks/MonoSoundFix.cpp)
 
 set_target_properties(
   KoTR_ModernPatch
