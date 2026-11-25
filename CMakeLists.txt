@@ -41,6 +41,17 @@ add_library(
   Common/SettingsManager/SettingsManager.cpp
   KoTR_MonoSoundFix/AsiPlugin/sources/Hooks/MonoSoundFix.cpp)
 
+add_library(
+  KoTR_HighGraphicsSettings SHARED
+  KoTR_HighGraphicsSettings/AsiPlugin/sources/dllmain.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ExeUtils.cpp
+  KoTR_ModernPatch/AsiPlugin/sources/Utils/ModUtils/Patterns.cpp
+  Common/PatchHelpers/PointerFinder.cpp
+  Common/PatchHelpers/RedirectJumpHookBase.cpp
+  Common/PatchHelpers/TrampolineHookBase.cpp
+  Common/SettingsManager/SettingsManager.cpp
+  KoTR_HighGraphicsSettings/AsiPlugin/sources/Hooks/LodFix.cpp)
+
 set_target_properties(
   KoTR_ModernPatch
   PROPERTIES SUFFIX ".asi"
@@ -53,6 +64,12 @@ set_target_properties(
              PREFIX ""
              OUTPUT_NAME "KoTR_MonoSoundFix")
 
+set_target_properties(
+  KoTR_HighGraphicsSettings
+  PROPERTIES SUFFIX ".asi"
+             PREFIX ""
+             OUTPUT_NAME "KoTR_HighGraphicsSettings")
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
   target_link_options(
     KoTR_ModernPatch PRIVATE $<$<CONFIG:Release>:-static>
@@ -60,6 +77,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
 
   target_link_options(
     KoTR_MonoSoundFix PRIVATE $<$<CONFIG:Release>:-static>
+    $<$<CONFIG:Release>:-static-libgcc> $<$<CONFIG:Release>:-static-libstdc++>)
+
+  target_link_options(
+    KoTR_HighGraphicsSettings PRIVATE $<$<CONFIG:Release>:-static>
     $<$<CONFIG:Release>:-static-libgcc> $<$<CONFIG:Release>:-static-libstdc++>)
 endif()
 
@@ -69,4 +90,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 
   target_compile_options(KoTR_MonoSoundFix PRIVATE -fms-extensions
                                                    -fms-compatibility)
+
+  target_compile_options(KoTR_HighGraphicsSettings PRIVATE -fms-extensions
+                                                           -fms-compatibility)
 endif()
